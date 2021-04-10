@@ -1,2 +1,3 @@
 # Multi-Layer-Perceptron-from-Stratch
-Network aims to predict the next word.
+Network receives 3 consecutive words as the input and aims to predict the next
+word
