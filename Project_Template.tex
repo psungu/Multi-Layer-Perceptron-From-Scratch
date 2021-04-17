@@ -1,0 +1,45 @@
+\documentclass[12pt]{article}
+
+\usepackage{amsmath,amsthm,amssymb,multirow,paralist}
+
+% Use 1/2-inch margins.
+\usepackage[margin=1in]{geometry}
+\usepackage{hyperref}
+\usepackage{color}
+\usepackage{graphicx}
+
+\begin{document}
+\begin{flushleft}
+Name Surname: \\
+Student Number:
+\end{flushleft}
+\begin{center}
+{%\Large 
+\textbf{CMPE 597 Sp. Tp. Deep Learning} \\
+{\bf Spring 2021 Project I}\\
+Due: April 30 by 11.59pm}%\\\linethickness{1mm}\line(1,0){500}
+\end{center}
+
+
+
+\section*{Answers}
+\begin{enumerate}
+\item (15 pts) Write the mathematical expressions for forward propagation.
+\item (15 pts) Write the mathematical expressions of the gradients that you need to compute in backward propagation.
+\item (20 pts) Implement a Network class, \url{Network.py}, where you have the forward, backward propagation, and the activation functions. Use matrix-vector operations.
+\item (20 pts) Implement a main function, \url{main.py}, where you load the dataset, shuffle the training data and divide it into mini-batches, write the loop for the epoch and iterations, and evaluate the model on validation set during training. Report the training and validation accuracy.
+\item (5 pts) Implement an evaluation function, \url{eval.py}, where you load the learned network parameters and evaluate the model on test data. Report the test accuracy. 
+\item After obtaining 16 dimensional embeddings
+\begin{enumerate}
+\item (10 pts) Create a 2-D plot of the embeddings using t-SNE which maps nearby 16 dimensional embeddings close to each other in the 2-D space. You can use of the shelf t-SNE functions. Implement a \url{tsne.py} file where you load model parameters, return the learned embeddings, and plot t-SNE. Use the words in the \url{vocab.txt} as the labels in the plot. 
+\item (5 pts) Look at the plot and find a few
+clusters of related words. What do the words in each cluster have in common?
+\item (5 pts) Pick the following data points; 'city of new', 'life in the', 'he is the'. Use the model to predict the next word. Does
+the model give sensible predictions?
+\end{enumerate}
+\item (5 pts) Provide a README file where I can find the steps to train, load, and evaluate your model.
+\end{enumerate}
+
+
+
+\end{document}
