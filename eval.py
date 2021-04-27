@@ -43,22 +43,26 @@ def predict(model, Word1_encoding, Word2_encoding, Word3_encoding):
     embedding_layer2 = model[0] @ Word2_encoding.T 
     embedding_layer3 = model[0] @ Word3_encoding.T
 
-    hidden_layer_1 = sigmoid(model[1] @ embedding_layer1  + model[5])
-    hidden_layer_2 = sigmoid(model[2] @ embedding_layer2  + model[5])
-    hidden_layer_3 = sigmoid(model[3] @ embedding_layer3  + model[5])
-    hidden_layer = hidden_layer_1 + hidden_layer_2 + hidden_layer_3
-    
-    prediction = softmax(model[4] @ hidden_layer + model[6])
+    embedding_layer = np.concatenate([embedding_layer1, embedding_layer2, embedding_layer3])
+
+    hidden_layer = model[1] @ embedding_layer
+
+    hidden_layer = sigmoid(hidden_layer + model[3])
+        
+    prediction = softmax(model[2] @ hidden_layer + model[4])
 
     return prediction
 
 
 def calculate_accuracy(target):
     prediction = predict(model, Word1_encoding, Word2_encoding, Word3_encoding)
-    predict_index = np.argmax(prediction, axis=1)
+    predict_index = np.argmax(prediction, axis=0)
+    counter = 0
+    for j in range(len(target)):
+        if (target[j] == predict_index[j]):
+            counter+=1
 
-    correct_classified = set(predict_index) & set(target)
-    return (len(correct_classified)/len(target))
+    return counter/len(target)
 
 
 accuracy = calculate_accuracy(Word4)

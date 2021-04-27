@@ -1,5 +1,7 @@
 import numpy as np
 import pickle
+from sklearn.manifold import TSNE
+import matplotlib.pyplot as plt
 
 
 def read_data():
@@ -30,7 +32,34 @@ def load_model(path):
 Word1_encoding, Word2_encoding, Word3_encoding, Word4, codebook = read_data()
 model = load_model("./")
 
-embedding_layer1 = model[0] @ Word1_encoding.T
-embedding_layer2 = model[0] @ Word2_encoding.T 
-embedding_layer3 = model[0] @ Word3_encoding.T
 
+word_encoding = np.identity(250)
+
+
+##################################
+def tsne_plot(word_encoding, codebook, model):
+    "Creates and TSNE model and plots it"
+    
+    tsne_model = TSNE(perplexity=40, n_components=2, init='pca', n_iter=2500, random_state=23)
+    new_values = tsne_model.fit_transform(word_encoding @ model[0].T)
+
+    x = []
+    y = []
+    for value in new_values:
+        x.append(value[0])
+        y.append(value[1])
+        
+    plt.figure(figsize=(16, 16)) 
+    for i in range(len(x)):
+        plt.scatter(x[i],y[i])
+        plt.annotate(codebook[i],
+                     xy=(x[i], y[i]),
+                     xytext=(5, 2),
+                     textcoords='offset points',
+                     ha='right',
+                     va='bottom')
+    plt.show()
+
+
+
+tsne_plot(word_encoding, codebook, model)
