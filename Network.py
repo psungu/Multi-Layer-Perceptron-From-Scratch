@@ -20,13 +20,14 @@ class Network():
         s = 1 / (1 + np.exp(-Z))
         return s * (1 - s)
 
-    def softmax(self, S):
+    # def softmax(self, S):
         
-        return np.exp(S) / np.exp(S).sum()
+    #     return np.exp(S) / np.exp(S).sum()
 
-    # def softmax(self, Z):
-    #     expZ = np.exp(Z - np.max(Z))
-    #     return expZ / expZ.sum(axis=1, keepdims=True)
+    def stable_softmax(self, S):
+        z = S - np.max(S)
+        result = np.exp(z) / np.sum(np.exp(z))
+        return result
 
 
     def forward_propogation(self, Word1_encoding, Word2_encoding, Word3_encoding):
@@ -41,7 +42,7 @@ class Network():
 
         hidden_layer = self.sigmoid(hidden_input)
 
-        prediction = self.softmax(self.W3 @ hidden_layer + self.bias2)
+        prediction = self.stable_softmax(self.W3 @ hidden_layer + self.bias2)
 
         return embedding_layer, hidden_layer, hidden_input, prediction.T
 
@@ -57,13 +58,13 @@ class Network():
 
         loss = self.cross_entropy_loss(target, prediction)
 
-        derivative_of_prediction_wrt_softmax  = (prediction - target) * 1/len(target)
+        derivative_of_loss_wrt_softmax  = (prediction - target) * 1/len(target)
 
-        derivative_of_loss_wrt_bias2 =  np.sum(derivative_of_prediction_wrt_softmax.T, axis=1, keepdims=True)
+        derivative_of_loss_wrt_bias2 =  np.sum(derivative_of_loss_wrt_softmax.T, axis=1, keepdims=True)
 
-        derivative_of_loss_wrt_W3 = (hidden_layer @ derivative_of_prediction_wrt_softmax).T
+        derivative_of_loss_wrt_W3 = (hidden_layer @ derivative_of_loss_wrt_softmax).T
 
-        derivative_of_loss_wrt_hidden = (derivative_of_prediction_wrt_softmax @ self.W3).T
+        derivative_of_loss_wrt_hidden = (derivative_of_loss_wrt_softmax @ self.W3).T
 
         sigmoid_derivative = self.sigmoid_derivative(hidden_input)
         

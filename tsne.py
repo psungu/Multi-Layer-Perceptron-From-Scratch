@@ -24,7 +24,7 @@ def read_data():
     return Word1_encoding, Word2_encoding, Word3_encoding, Word4, codebook
 
 def load_model(path):
-    file = open("modelweights.pkl",'rb')
+    file = open("modelweights_new.pkl",'rb')
     object_file = pickle.load(file)
     return object_file
 
