@@ -1,5 +1,8 @@
-Create virtual environment with Python 3.8.7 
-And, install the packages provided in requirements
+To Run the Next Word Prediction Project, please follow the instructions.
+
+Python 3.8.7 
+
+install the packages provided in requirements
 
 -Requirements
 
